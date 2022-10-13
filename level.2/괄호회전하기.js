@@ -22,7 +22,7 @@ function solution(s) {
 
 function solution(s) {
   let result = 0;
-  let coco;
+  let distinction;
   for (i = 0; i < s.length; i++) {
     let sum;
     let big;
@@ -41,13 +41,13 @@ function solution(s) {
       else if (item === "]") middle === undefined ? (sum = -1) : middle--;
       else if (item === ")") small === undefined ? (sum = -1) : small--;
     }
-    if (big === 0 && middle === 0 && small === 0) coco = true;
+    if (big === 0 && middle === 0 && small === 0) distinction = true;
     let save = s[0];
     s = s.slice(1);
     s += save;
-    if (coco) {
+    if (distinction) {
       result++;
-      coco = false;
+      distinction = false;
     }
   }
   return result;

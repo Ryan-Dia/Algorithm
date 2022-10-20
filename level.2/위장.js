@@ -11,3 +11,11 @@ function solution(clothes) {
     clothesCount.reduce((previous, current) => previous * current, 1) - 1;
   return answer;
 }
+function solution(clothes) {
+  var answer = 1;
+  const spyWear = {};
+  for (const clothNPart of clothes)
+    spyWear[clothNPart[1]] = (spyWear[clothNPart[1]] || 0) + 1;
+  for (const part in spyWear) answer *= spyWear[part] + 1;
+  return answer - 1;
+}

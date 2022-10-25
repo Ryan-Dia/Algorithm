@@ -19,3 +19,14 @@ function solution(clothes) {
   for (const part in spyWear) answer *= spyWear[part] + 1;
   return answer - 1;
 }
+////////////////////
+
+function solution(clothes) {
+  let box = [];
+  let classification = clothes.reduce((acc, cur) => {
+    acc[cur[1]] = (acc[cur[1]] || 0) + 1;
+    return acc;
+  }, {});
+  for (let item in classification) box.push(classification[item] + 1);
+  return box.reduce((a, b) => a * b) - 1;
+}

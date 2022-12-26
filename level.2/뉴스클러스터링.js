@@ -1,45 +1,37 @@
 function solution(str1, str2) {
-  const constant = 65536;
+  const DEFAULT_NUMBER = 65536;
 
-  const pureWordFromStr1 = lowerCase(onlyWord(divideString(str1)));
-  const pureWordFromStr2 = lowerCase(onlyWord(divideString(str2)));
+  const pureWordFromStr1 = lowerCase(onlyValidWords(divideString(str1)));
+  const pureWordFromStr2 = lowerCase(onlyValidWords(divideString(str2)));
 
-  const Collections1 = countWordWithDuplication(pureWordFromStr1);
-  const Collections2 = countWordWithDuplication(pureWordFromStr2);
-  const intersection = calculateIntersection(Collections1, Collections2);
-  const union = calculateUnion(Collections1, Collections2, intersection);
+  const collections1 = countWordWithDuplication(pureWordFromStr1);
+  const collections2 = countWordWithDuplication(pureWordFromStr2);
+  const intersection = calculateIntersection(collections1, collections2);
+  const union = calculateUnion(collections1, collections2, intersection);
 
   if (intersection.length === 0 && union !== 0) return 0;
-  const result = Math.trunc((intersection.length / union) * constant);
-  return result ? result : constant;
+  const result = Math.trunc((intersection.length / union) * DEFAULT_NUMBER);
+  return result ? result : DEFAULT_NUMBER;
 }
 
-function calculateUnion(Collections1, Collections2, intersection, union = 0) {
-  for (let word in Collections2) {
-    Collections1[word] = (Collections1[word] || 0) + Collections2[word];
+function calculateUnion(collections1, collections2, intersection) {
+  const union = { ...collections1 };
+
+  for (let word in collections2) {
+    union[word] = (union[word] || 0) + collections2[word];
   }
 
   for (let word of intersection) {
-    Collections1[word] -= 1;
+    union[word] -= 1;
   }
-
-  for (let word in Collections1) {
-    union += Collections1[word];
-  }
-
-  return union;
+  return Object.values(union).reduce((acc, count) => acc + count, 0);
 }
 
-function calculateIntersection(Collections1, Collections2, intersection = []) {
-  for (let word in Collections1) {
-    const min = Math.min(Collections1[word], Collections2[word]);
-    if (min)
-      intersection.push(
-        ...word
-          .repeat(min)
-          .replace(/\B(?=(\w{2})+(?!\w))/g, ',')
-          .split(',')
-      );
+function calculateIntersection(collections1, collections2, intersection = []) {
+  const RegExp = /\B(?=(\w{2})+(?!\w))/g;
+  for (let word in collections1) {
+    const min = Math.min(collections1[word], collections2[word]);
+    if (min) intersection.push(...word.repeat(min).replace(RegExp, ',').split(','));
   }
   return intersection;
 }
@@ -58,7 +50,7 @@ function divideString(str) {
   }, []);
 }
 
-function onlyWord(string) {
+function onlyValidWords(string) {
   return string.filter((word) => /[a-z]{2}/gi.test(word));
 }
 

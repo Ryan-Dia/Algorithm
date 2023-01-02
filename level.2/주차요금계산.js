@@ -18,7 +18,7 @@ class ParkingData {
   }
 
   #run() {
-    this.#saveCarData();
+    this.#calculateTotalHoursOfUse();
     this.#sort();
     this.#calculateFee();
   }
@@ -27,7 +27,8 @@ class ParkingData {
     return this.#result;
   }
 
-  #saveCarData() {
+  #calculateTotalHoursOfUse() {
+    const FULL_TIME = 1439;
     let carData = {};
     this.records.forEach((record) => {
       let [passTime, carNumber, inOrOut] = record.split(' ');
@@ -41,7 +42,7 @@ class ParkingData {
     for (let carNumber in carData) {
       if (carData[carNumber] !== null) {
         this.#parkingData[carNumber] = this.#parkingData[carNumber] ?? 0;
-        this.#parkingData[carNumber] += 1439 - carData[carNumber];
+        this.#parkingData[carNumber] += FULL_TIME - carData[carNumber];
       }
     }
   }

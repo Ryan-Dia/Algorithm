@@ -27,25 +27,29 @@ class ParkingData {
     return this.#result;
   }
 
-  #calculateTotalHoursOfUse() {
-    const FULL_TIME = 1439;
-    let carData = {};
+  #calculateTotalHoursOfUse(carData = {}) {
     this.records.forEach((record) => {
       let [passTime, carNumber, inOrOut] = record.split(' ');
       let [hour, minute] = passTime.split(':');
       passTime = hour * 60 + +minute;
-      if (inOrOut === 'IN') return (carData[carNumber] = passTime);
       this.#parkingData[carNumber] = this.#parkingData[carNumber] ?? 0;
+
+      if (inOrOut === 'IN') return (carData[carNumber] = passTime);
       this.#parkingData[carNumber] += passTime - carData[carNumber];
       return (carData[carNumber] = null);
     });
+    this.#processCarNotPulledOut(carData);
+  }
+
+  #processCarNotPulledOut(carData) {
+    const DEFULAT_OUT_TIME = 1439;
     for (let carNumber in carData) {
       if (carData[carNumber] !== null) {
-        this.#parkingData[carNumber] = this.#parkingData[carNumber] ?? 0;
-        this.#parkingData[carNumber] += FULL_TIME - carData[carNumber];
+        this.#parkingData[carNumber] += DEFULAT_OUT_TIME - carData[carNumber];
       }
     }
   }
+
   #sort() {
     this.#parkingData = Object.entries(this.#parkingData).sort(([a], [b]) => +a - +b);
   }

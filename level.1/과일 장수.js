@@ -1,13 +1,10 @@
-Array.prototype.result = function (count) {
+function solution(k, m, score) {
+  score.sort((a, b) => b - a);
   let result = 0;
-  for (let i = 0; i <= this.length - count; i += count) {
-    const calculate = this[i + count - 1] * count;
+  while (score.length >= m) {
+    const data = score.splice(0, m);
+    const calculate = data[m - 1] * m;
     result += calculate;
   }
   return result;
-};
-
-function solution(k, m, score) {
-  score.sort((a, b) => b - a);
-  return score.result(m);
 }

@@ -40,3 +40,25 @@ const borrow = (function () {
     return save; // forEach 문이 끝나면 잃어버렸지만 체육복을 빌린 학생 수 return
   };
 })();
+
+// 풀이 2
+
+function solution(n, lost, reserve) {
+  const NONEXISTENT = -1;
+  const lostNonDuplicated = lost
+    .filter((l) => !reserve.includes(l))
+    .sort((pre, cur) => pre - cur);
+  let reserveNonDuplicated = reserve
+    .filter((r) => !lost.includes(r))
+    .sort((pre, cur) => pre - cur);
+  return (
+    n -
+    lostNonDuplicated.filter((borrower) => {
+      const indexOfStudentCanLend = reserveNonDuplicated.findIndex(
+        (lender) => Math.abs(lender - borrower) === 1
+      );
+      if (indexOfStudentCanLend === NONEXISTENT) return true;
+      reserveNonDuplicated.splice(indexOfStudentCanLend, 1);
+    }).length
+  );
+}

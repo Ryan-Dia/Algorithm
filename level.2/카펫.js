@@ -11,21 +11,23 @@ function solution(brown, yellow) {
 // 풀이 추가
 
 function solution(brown, yellow) {
-  if (yellow === 1) return [3, 3];
-  let box = [];
-  for (let i = 0; i < yellow; i++) {
-    let divide = yellow / i;
-    if (Number.isInteger(divide) && divide > 0) {
-      box.push([i, divide]);
+  let divisor = getDivisor(yellow);
+
+  const result = divisor.filter(([a, b]) => {
+    const case1 = (a + 2) * (b + 2) === brown + yellow;
+    const case2 = a * b === yellow;
+    return case1 && case2;
+  });
+  return result[0].map((x) => x + 2).sort((a, b) => b - a);
+}
+
+function getDivisor(yellow) {
+  const arr = [];
+  for (let i = 0; i <= yellow; i++) {
+    const divide = yellow / i;
+    if (Number.isInteger(divide)) {
+      arr.push([i, divide]);
     }
   }
-  if (box.length === 1) {
-    box = box[0];
-    box.sort((a, b) => b - a);
-    return box.map((x) => +x + 2);
-  }
-  const choice = box.length % 2 ? Math.ceil(box.length / 2) - 1 : box.length / 2;
-
-  const result = box[choice];
-  return result.map((x) => +x + 2).sort((a, b) => b - a);
+  return arr;
 }

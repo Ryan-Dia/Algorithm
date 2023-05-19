@@ -1,3 +1,6 @@
+// 풀이 :https://html-jc.tistory.com/651
+// 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/42586
+
 function solution(progresses, speeds) {
   let countBox = [];
   let completeBox = [];
@@ -59,5 +62,47 @@ function solution(progresses, speeds) {
   }
 
   result.push(deployCount);
+  return result;
+}
+
+//풀이 3
+
+function solution(progresses, speeds) {
+  const result = [];
+  while (progresses.length) {
+    for (let i = 0; i < progresses.length; i++) {
+      progresses[i] += speeds[i];
+    }
+
+    let count = 0;
+    while (progresses.length > 0 && progresses[0] >= 100) {
+      progresses.shift();
+      speeds.shift();
+      count += 1;
+    }
+    if (count > 0) result.push(count);
+  }
+  return result;
+}
+
+// 풀이 4
+
+function solution(progresses, speeds) {
+  const result = [];
+  while (progresses.length) {
+    for (let i = 0; i < progresses.length; i++) {
+      progresses[i] += speeds[i];
+    }
+    if (progresses[0] >= 100) {
+      let imcomplete = progresses.findIndex((progress) => progress < 100);
+      if (imcomplete === -1) {
+        result.push(progresses.length);
+        return result;
+      }
+      progresses.splice(0, imcomplete);
+      speeds.splice(0, imcomplete);
+      result.push(imcomplete);
+    }
+  }
   return result;
 }

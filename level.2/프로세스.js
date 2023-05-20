@@ -1,4 +1,7 @@
 // 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/42587
+// 풀이 : https://html-jc.tistory.com/653
+
+// 풀이 1
 
 function solution(priorities, location) {
   // priorities에 index를 포함시켜서 2차원 배열로 바꾼다.
@@ -34,4 +37,42 @@ function rearrangePriorities(priorities) {
     index += 1;
   }
   return stack;
+}
+
+// 풀이 2
+
+function solution(priorities, location) {
+  const queue = [];
+  priorities = priorities.map((priority, index) => [priority, index]);
+  while (priorities.length) {
+    const [priority, index] = priorities.shift();
+    const higherImportance = priorities.findIndex(([value, _]) => value > priority);
+    if (higherImportance === -1) {
+      if (index === location) return queue.length + 1;
+      queue.push([priority, index]);
+      continue;
+    }
+    priorities.push([priority, index]);
+  }
+}
+
+// 다른사람 풀이 (굿)
+
+function solution(priorities, location) {
+  let count = 0; // 처리된 프로세스 수
+  let maxPriority = Math.max(...priorities); // 최대 우선순위
+
+  while (true) {
+    const currentProcess = priorities.shift(); // 대기중인 프로세스를 큐에서 꺼냄
+
+    if (currentProcess === maxPriority) {
+      count++; // 프로세스 실행
+      if (location === 0) return count; // 찾고자 하는 프로세스일 경우 결과 반환
+      maxPriority = Math.max(...priorities); // 최대 우선순위 갱신
+    } else {
+      priorities.push(currentProcess); // 큐에 다시 넣음
+    }
+
+    location = location === 0 ? priorities.length - 1 : location - 1; // 위치 조정
+  }
 }

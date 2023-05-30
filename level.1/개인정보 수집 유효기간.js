@@ -1,23 +1,33 @@
-function checkvalidity(today, date, validity) {
-  let [y1, m1, d1] = today.split('.').map(number),
-    [y2, m2, d2] = date.split('.').map(number);
-
-  return ((y1 - y2) * 12 + (m1 - m2)) * 28 + (d1 - d2) >= validity * 28;
-}
+// 링크 :https://school.programmers.co.kr/learn/courses/30/lessons/150370
+// 풀이 :https://html-jc.tistory.com/663
 
 function solution(today, terms, privacies) {
-  const answer = [];
-  const map = new map();
+  today = new Date(today.replace(/[.]/g, '-'));
 
-  for (let t of terms) {
-    let [kind, validity] = t.split(' ');
-    map.set(kind, +validity);
-  }
+  const updatedTerms = convertArrayToObject(terms);
 
-  privacies.foreach((val, idx) => {
-    let [date, kind] = val.split(' ');
-    if (checkvalidity(today, date, map.get(kind))) answer.push(idx + 1);
-  });
+  return privacies.reduce((acc, cur, index) => {
+    const expirationDate = getExpirationDate(cur, updatedTerms);
+    if (isExpired(expirationDate, today)) acc.push(index + 1);
+    return acc;
+  }, []);
+}
 
-  return answer;
+function convertArrayToObject(terms) {
+  return terms.reduce((acc, cur) => {
+    const [type, month] = cur.split(' ');
+    acc[type] = month;
+    return acc;
+  }, {});
+}
+
+function getExpirationDate(cur, updatedTerms) {
+  const [date, type] = cur.split(' ');
+  const joinDate = new Date(date.replace(/[.]/g, '-'));
+  joinDate.setMonth(joinDate.getMonth() + +updatedTerms[type]);
+  return joinDate;
+}
+
+function isExpired(expirationDate, today) {
+  return expirationDate <= today;
 }

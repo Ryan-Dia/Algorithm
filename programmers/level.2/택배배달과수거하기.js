@@ -1,62 +1,21 @@
-function solution(cap, n, deliveries, pickups) {
-  const saveCap = cap;
-  let pickupCap = cap;
-  let length = 0;
-  let flag = true;
-  let i = deliveries.length - 1;
-  while (Math.max(...deliveries) !== 0) {
-    console.log('----');
-    console.log(i);
-    console.log(length, 'length');
-    console.log(deliveries, 'arr');
-    console.log(pickupCap, 'pickCap');
-    console.log(pickups);
-    if (pickupCap - pickups[i] < 0 || !pickupCap) {
-      console.log('hi');
-      flag = true;
-      pickups[i] -= pickupCap;
-      pickupCap = saveCap;
-    } else {
-      pickupCap -= pickups[i];
-      pickups[i] = 0;
-    }
-    console.log(pickupCap, 'pickCap');
-    console.log(flag, 'flag');
-    // 택배 배달
-    if (!deliveries[i]) {
-      i -= 1;
-      continue;
-    }
-    if (cap - deliveries[i] > 0) {
-      console.log(i, 'first');
-      cap -= deliveries[i];
-      deliveries[i] = 0;
-      if (flag) {
-        length += (i + 1) * 2;
-        flag = false;
-      }
-      i -= 1;
-      continue;
-    }
+// 풀이 : https://html-jc.tistory.com/677
+// 문제 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/150369
 
-    if (cap - deliveries[i] === 0) {
-      console.log(i, 'second');
-      cap = saveCap;
-      deliveries[i] = 0;
-      if (flag) {
-        length += (i + 1) * 2;
-        flag = false;
-      }
-      i -= 1;
-      continue;
-    }
-    if (cap - deliveries[i] < 0) {
-      console.log(i, 'last');
-      deliveries[i] -= cap;
-      cap = saveCap;
-      flag = true;
+function solution(cap, n, deliveries, pickups) {
+  let answer = 0;
+  let deliveryCap = 0;
+  let pickUpCap = 0;
+  // 가장 먼 곳부터 체크
+  for (let i = n - 1; i >= 0; i--) {
+    deliveryCap += deliveries[i];
+    pickUpCap += pickups[i];
+
+    //
+    while (deliveryCap > 0 || pickUpCap > 0) {
+      deliveryCap -= cap;
+      pickUpCap -= cap;
+      answer += (i + 1) * 2;
     }
   }
-  console.log(deliveries);
-  console.log(length);
+  return answer;
 }

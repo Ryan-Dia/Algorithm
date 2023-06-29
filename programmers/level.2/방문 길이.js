@@ -42,7 +42,7 @@ function cannotMove(dir, coordinates) {
   if (coordinates.y === 6) {
     coordinates.y -= 1;
     return true;
-  }
+  }ㅎ
   if (coordinates.y === -6) {
     coordinates.y += 1;
     return true;

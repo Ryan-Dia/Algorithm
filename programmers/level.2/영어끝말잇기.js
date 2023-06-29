@@ -16,15 +16,26 @@ function solution(n, words) {
 
   for (let i = 1; i < words.length; i++) {
     beforeLastLetter = words[i - 1].at(-1);
-    if (beforeLastLetter !== words[i][0]) {
-      return [(i + 1) % n || n, Math.ceil((i + 1) / n)];
-    }
-    if (usedWords.has(words[i])) {
+    if (isInvalidWord(beforeLastLetter, words[i], usedWords)) {
       return [(i + 1) % n || n, Math.ceil((i + 1) / n)];
     }
     usedWords.add(words[i]);
   }
   return [0, 0];
+}
+
+function isInvalidWord(beforeLastLetter, word, usedWords) {
+  return (
+    isWordChainInvalid(beforeLastLetter, word) || isWordAlreadyExists(usedWords, word)
+  );
+}
+
+function isWordChainInvalid(beforeLastLetter, word) {
+  return beforeLastLetter !== word[0];
+}
+
+function isWordAlreadyExists(usedWords, word) {
+  return usedWords.has(word);
 }
 
 // 풀이 2

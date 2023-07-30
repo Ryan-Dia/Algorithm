@@ -1,3 +1,5 @@
+// 문제 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/17677
+
 function solution(str1, str2) {
   const DEFAULT_NUMBER = 65536;
 

@@ -45,7 +45,7 @@ function solution(want, number, discount) {
 function solution(want, number, discount) {
   const DAYS = 10;
   const discountDays = discount.length;
-  let dateCount = 0;
+  let totalDays = 0;
 
   // 1. wantData 만들기  {원하는 제품 : 원하는 수량}
   const wantData = want.reduce(
@@ -71,10 +71,10 @@ function solution(want, number, discount) {
     }
 
     if (!copyWantData.totalQuantity) {
-      dateCount += 1;
+      totalDays += 1;
     }
   }
-  return dateCount;
+  return totalDays;
 }
 
 // 설계

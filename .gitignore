@@ -1,0 +1,69 @@
+# IntelliJ IDEA 관련 파일들
+/.idea/
+/*.iml
+*.iws
+
+# Java 빌드 파일
+/out/
+/build/
+/target/
+
+# Gradle 관련 파일들
+.gradle/
+/*.gradle
+.gradle-cache/
+/build/
+
+# Maven 관련 파일들
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# 클래스 파일
+*.class
+
+# 로그 파일
+*.log
+
+# OS/환경별 파일
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# JUnit 테스트 결과
+/test-output/
+
+# Lombok 관련 파일
+.lombok/
+
+# 기타 설정 파일
+*.env
+*.idea_modules/
+
+# 프로젝트 설정 파일
+/.classpath
+/.project
+/.settings/
+
+# 실행 파일
+*.jar
+*.war
+*.ear
+
+# 커스텀 파일 추가 (예: 특정 디렉토리 제외)
+/docs/
+/dist/
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
